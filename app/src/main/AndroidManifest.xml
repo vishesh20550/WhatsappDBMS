@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatsappDBMS">
         <activity
+            android:name=".Personal_Chats"
+            android:exported="false" />
+        <activity
             android:name=".MainScreenActivity"
             android:exported="false" />
         <activity
