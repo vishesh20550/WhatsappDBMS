@@ -15,6 +15,9 @@
             android:name=".PersonalChatList"
             android:exported="false" />
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".Personal_Chats"
             android:exported="false" />
         <activity
