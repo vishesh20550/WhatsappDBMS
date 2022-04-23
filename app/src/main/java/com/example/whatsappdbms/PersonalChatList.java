@@ -33,12 +33,11 @@ public class PersonalChatList extends AppCompatActivity {
         getData();
 
 
-
-
     }
 
     public void getData(){
-
+        Intent intent = getIntent();
+        String sql = intent.getStringExtra("query");
         String username = "root";
         String password = "DBMSProject123";
         Connection connection= null;
@@ -56,7 +55,6 @@ public class PersonalChatList extends AppCompatActivity {
             connection= DriverManager.getConnection(ConnectionURL,username,password);
             Log.e("Success","Connection Successful");
                     Statement stmt = connection.createStatement();
-                    String sql = "select name from userlist where userid in ( select recieverid from chats where senderid = 1 union select senderid from chats where recieverid=1);";
             ResultSet output=  stmt.executeQuery(sql);
             while(output.next()){
                 Log.e("Output",output.getString(1));
@@ -65,9 +63,9 @@ public class PersonalChatList extends AppCompatActivity {
 
             connection.close();
             setAdapter();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            Log.e("Error",throwables.toString());
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+            Log.e("Error",throwable.toString());
         }
 
     }
@@ -80,7 +78,6 @@ public class PersonalChatList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 PersonalChatList.this.startActivity(new Intent(PersonalChatList.this, Personal_Chats.class));
-
             }
         });
 
