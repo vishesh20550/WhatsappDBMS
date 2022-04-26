@@ -22,12 +22,14 @@
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textSize="14sp"
+                android:textColor = "?android:textColorPrimary"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor = "?android:textColorPrimary"
                 android:text="TextView" />
 
         </LinearLayout>
