@@ -15,13 +15,13 @@ public class MainScreenActivity extends AppCompatActivity {
     }
     public void group (View view){
         intent =new Intent(MainScreenActivity.this, PersonalChatList.class);
-        intent.putExtra("query","select name from userlist where userid in ( select recieverid from chats where senderid = 1 union select senderid from chats where recieverid=1);");
+        intent.putExtra("type","group");
         MainScreenActivity.this.startActivity(intent);
 
     }
     public void personal (View view){
         intent =new Intent(MainScreenActivity.this, PersonalChatList.class);
-        intent.putExtra("query","select name from userlist where userid in ( select recieverid from chats where senderid = 1 union select senderid from chats where recieverid=1);");
+        intent.putExtra("type","personal");
         MainScreenActivity.this.startActivity(intent);
       }
     public void profile (View view){
