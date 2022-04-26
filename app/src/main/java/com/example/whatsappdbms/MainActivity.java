@@ -10,6 +10,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     String passwordInput;
     String userId;
     Intent intent;
+    Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +35,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         editTextPhone =findViewById(R.id.editTextPhone);
         editTextTextPassword = findViewById(R.id.editTextTextPassword);
+        login = findViewById(R.id.loginButton);
     }
     public void loginClicked(View view) {
         closeKeyBoard();
+        login.setEnabled(false);
         phoneNumberInput = editTextPhone.getText().toString();
         passwordInput = editTextTextPassword.getText().toString();
         if(phoneNumberInput.equals("") || passwordInput.equals(""))
@@ -62,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 ResultSet output = stmt.executeQuery(sql);
                 output.beforeFirst();
                 if(output.next()){
-                    if(!password.equals(output.getString(2))){
+                    if(!passwordInput.equals(output.getString(2))){
+                        Log.e("Password",output.getString(2));
                         Toast.makeText(this, "Wrong Password", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -81,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("Error", throwable.toString());
             }
         }
+        login.setEnabled(true);
     }
     private void closeKeyBoard(){
         View view = this.getCurrentFocus();
