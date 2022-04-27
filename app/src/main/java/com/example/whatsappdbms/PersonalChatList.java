@@ -25,6 +25,7 @@ public class PersonalChatList extends AppCompatActivity {
     ListView listView;
     String value;
     ArrayList<String> id_sequence;
+    String cur_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class PersonalChatList extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             value = extras.getString("type");
+            cur_user=extras.getString("userId");
         }
         names = new ArrayList<>();
         listView = findViewById(R.id.chatlist);
@@ -50,7 +52,7 @@ public class PersonalChatList extends AppCompatActivity {
 
     public void getData_personal(){
 
-        String sql = "select * from userlist where userid in ( select recieverid from chats where senderid = 1 union select senderid from chats where recieverid=1);";
+        String sql = "select * from userlist where userid in ( select recieverid from chats where senderid ="+cur_user+" union select senderid from chats where recieverid="+cur_user+");";
         String username = "root";
         String password = "DBMSProject123";
         Connection connection= null;
@@ -98,6 +100,7 @@ public class PersonalChatList extends AppCompatActivity {
                Intent intent =new Intent(PersonalChatList.this, Personal_Chats.class);
                 intent.putExtra("type",value);
                 intent.putExtra("id",id_sequence.get(i));
+                intent.putExtra("cur_user",cur_user);
                 PersonalChatList.this.startActivity(intent);
             }
         });
@@ -105,7 +108,7 @@ public class PersonalChatList extends AppCompatActivity {
     }
 
     public void get_group_data(){
-        String sql = "Select * from grouplist where grouplistid in  (Select grouplistid from hasgrouprelation where userid=1)";
+        String sql = "Select * from grouplist where grouplistid in  (Select grouplistid from hasgrouprelation where userid="+cur_user+")";
         String username = "root";
         String password = "DBMSProject123";
         Connection connection= null;
