@@ -62,25 +62,15 @@ public class MainActivity extends AppCompatActivity {
                 connection = DriverManager.getConnection(ConnectionURL, username, password);
                 Log.e("Success", "Connection Successful");
                 Statement stmt = connection.createStatement();
-                String sql = "select user_id, password from auth_table where user_id =(select userid from userlist where phonenumber ="+phoneNumberInput+");";
+                String sql = "select userid from userlist where phonenumber="+phoneNumberInput+";";
                 ResultSet output = stmt.executeQuery(sql);
-                output.beforeFirst();
-                if(output.next()){
-                    if(!passwordInput.equals(output.getString(2))){
-                        Log.e("Password",output.getString(2));
-                        Toast.makeText(this, "Wrong Password", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        userId = output.getString(1);
-                        intent = new Intent(this, MainScreenActivity.class);
-                        intent.putExtra("userId",userId);
-                        this.startActivity(intent);
-                    }
-                }
-                else{
-                    Toast.makeText(this, "No User Found", Toast.LENGTH_SHORT).show();
+                while (output.next()) {
+                    userId= output.getString(1);
                 }
                 connection.close();
+                Intent intent = new Intent(this, MainScreenActivity.class);
+                intent.putExtra("userId",userId);
+                this.startActivity(intent);
             } catch (SQLException throwable) {
                 throwable.printStackTrace();
                 Log.e("Error", throwable.toString());
@@ -96,5 +86,9 @@ public class MainActivity extends AppCompatActivity {
                     getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+    public  void signup(View view){
+        intent = new Intent(this, SignUpPage.class);
+        this.startActivity(intent);
     }
 }

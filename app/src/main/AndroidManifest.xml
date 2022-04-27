@@ -12,7 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatsappDBMS">
         <activity
+
+            android:name=".SignUpPage"
+
             android:name=".AddFriendActivity"
+
             android:exported="false" />
         <activity
             android:name=".PersonalChatList"
