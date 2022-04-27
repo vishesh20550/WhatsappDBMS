@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         if(phoneNumberInput.equals("") || passwordInput.equals(""))
             Toast.makeText(this, "Please enter valid input", Toast.LENGTH_SHORT).show();
         else{
-            String username = "root";
-            String password = "DBMSProject123";
+            String username = phoneNumberInput;
+            String password = passwordInput;
             Connection connection = null;
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (SQLException throwable) {
                 throwable.printStackTrace();
                 Log.e("Error", throwable.toString());
+                Toast.makeText(this, throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         }
         login.setEnabled(true);
