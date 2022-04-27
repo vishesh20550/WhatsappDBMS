@@ -9,15 +9,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class PersonalChatList extends AppCompatActivity {
     ArrayList <String> names ;
@@ -26,11 +26,13 @@ public class PersonalChatList extends AppCompatActivity {
     String value;
     ArrayList<String> id_sequence;
     String cur_user;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_chat_list);
+        progressBar=findViewById(R.id.progressBar1);
         id_sequence=new ArrayList<>();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -40,10 +42,23 @@ public class PersonalChatList extends AppCompatActivity {
         names = new ArrayList<>();
         listView = findViewById(R.id.chatlist);
         if(value.equals("group")){
-            get_group_data();
+
+            CompletableFuture.runAsync(() -> {
+                // method call or code to be asynch.
+                get_group_data();
+
+            });
+            setAdapter();
+
 
         }else{
-            getData_personal();
+            CompletableFuture.runAsync(() -> {
+                // method call or code to be asynch.
+                getData_personal();
+
+            });
+            setAdapter();
+
         }
 
 
@@ -82,7 +97,15 @@ public class PersonalChatList extends AppCompatActivity {
             }
 
             connection.close();
-            setAdapter();
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    personalChatListAdapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+
+
+
         } catch (SQLException throwable) {
             throwable.printStackTrace();
             Log.e("Error",throwable.toString());
@@ -108,7 +131,7 @@ public class PersonalChatList extends AppCompatActivity {
     }
 
     public void get_group_data(){
-        String sql = "Select * from grouplist where grouplistid in  (Select grouplistid from hasgrouprelation where userid="+cur_user+")";
+        String sql = "Select * from grouplist where grouplistid in  (Select grouplistid from hasgrouprelation where userid="+cur_user+");";
         String username = "root";
         String password = "DBMSProject123";
         Connection connection= null;
@@ -139,7 +162,13 @@ public class PersonalChatList extends AppCompatActivity {
             }
 
             connection.close();
-            setAdapter();
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    personalChatListAdapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+
         } catch (SQLException throwable) {
             throwable.printStackTrace();
             Log.e("Error",throwable.toString());

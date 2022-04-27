@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,11 +30,13 @@ public class Personal_Chats extends AppCompatActivity {
     ListView listView;
     String id;
     String type, cur_user;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_chats);
+        progressBar=findViewById(R.id.progressBar1);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             id = extras.getString("id");
@@ -55,7 +58,13 @@ public class Personal_Chats extends AppCompatActivity {
             setAdapter();
 
         } else {
-            getData();
+            CompletableFuture.runAsync(() -> {
+                // method call or code to be asynch.
+                getData();
+
+            });
+            setAdapter();
+
         }
 
 
@@ -107,9 +116,15 @@ public class Personal_Chats extends AppCompatActivity {
                 //  Log.e("Output",output.getString(6));
                 // names.add(output.getString(1));
             }
-            setAdapter();
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    chat_adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+
             connection.close();
-            setAdapter();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             Log.e("Error", throwables.toString());
@@ -164,6 +179,7 @@ public class Personal_Chats extends AppCompatActivity {
             this.runOnUiThread(new Runnable() {
                 public void run() {
                     chat_adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
                 }
             });
 
@@ -259,6 +275,8 @@ public class Personal_Chats extends AppCompatActivity {
                 chat_adapter.notifyDataSetChanged();
                 editText.setText("");
                 connection.close();
+
+
 
 
             } catch (SQLException throwables) {
