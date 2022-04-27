@@ -230,7 +230,7 @@ public class Personal_Chats extends AppCompatActivity {
                 p.setInt(1, Integer.parseInt(id));
                 p.executeUpdate();
                 message.add(editText.getText().toString());
-                message_sender.add(userid_name.get("1"));
+                message_sender.add(userid_name.get(cur_user));
                 chat_adapter.notifyDataSetChanged();
                 editText.setText("");
                 connection.close();
