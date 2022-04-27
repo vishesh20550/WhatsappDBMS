@@ -16,12 +16,17 @@ import java.sql.Statement;
 public class ProfileActivity extends AppCompatActivity {
     String name;
     String phoneNumber;
-    String about;
+    String about,id;
     TextView nameTextView, phoneTextView, aboutTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            id = extras.getString("userId");
+
+        }
         aboutTextView = findViewById(R.id.aboutTextView);
         nameTextView = findViewById(R.id.nameTextView);
         phoneTextView = findViewById(R.id.phoneTextView);
@@ -46,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
             connection= DriverManager.getConnection(ConnectionURL,username,password);
             Log.e("Success","Connection Successful");
             Statement stmt = connection.createStatement();
-            String sql = "select name, phonenumber, about from userlist where userid = 1;";
+            String sql = "select name, phonenumber, about from userlist where userid = "+id+";";
             ResultSet output=  stmt.executeQuery(sql);
             while(output.next()){
                 Log.e("Output",output.getString(1));

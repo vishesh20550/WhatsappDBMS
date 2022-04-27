@@ -20,17 +20,22 @@ public class MainScreenActivity extends AppCompatActivity {
     public void group (View view){
         intent =new Intent(MainScreenActivity.this, PersonalChatList.class);
         intent.putExtra("type","group");
+        intent.putExtra("userId",userId);
         MainScreenActivity.this.startActivity(intent);
 
     }
     public void personal (View view){
         intent =new Intent(MainScreenActivity.this, PersonalChatList.class);
         intent.putExtra("type","personal");
+        intent.putExtra("userId",userId);
         MainScreenActivity.this.startActivity(intent);
       }
     public void profile (View view){
 
-        MainScreenActivity.this.startActivity(new Intent(MainScreenActivity.this, ProfileActivity.class));
+        intent =new Intent(MainScreenActivity.this, ProfileActivity.class);
+        intent.putExtra("userId",userId);
+        MainScreenActivity.this.startActivity(intent);
+
 
     }
 }

@@ -28,7 +28,7 @@ public class Personal_Chats extends AppCompatActivity {
     Chat_Adapter chat_adapter;
     ListView listView;
     String id;
-    String type;
+    String type, cur_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class Personal_Chats extends AppCompatActivity {
         if (extras != null) {
             id = extras.getString("id");
             type = extras.getString("type");
+            cur_user = extras.getString("cur_user");
 
         }
         message = new ArrayList<>();
@@ -79,10 +80,10 @@ public class Personal_Chats extends AppCompatActivity {
             connection = DriverManager.getConnection(ConnectionURL, username, password);
             Log.e("Success", "Connection Successful");
             Statement stmt = connection.createStatement();
-            String sql = "select name from userlist where userid = 1;";
+            String sql = "select name from userlist where userid ="+cur_user+";";
             ResultSet output = stmt.executeQuery(sql);
             while (output.next()) {
-                userid_name.put("1", output.getString(1));
+                userid_name.put(cur_user, output.getString(1));
 
             }
             sql = "select name from userlist where userid =" + id + ";";
@@ -92,7 +93,7 @@ public class Personal_Chats extends AppCompatActivity {
 
             }
 
-            sql = "Select * from chats where (senderid=1 and recieverid=" + id + ") or (senderid=" + id + " and recieverid=1) order by senttime;";
+            sql = "Select * from chats where (senderid="+cur_user+" and recieverid=" + id + ") or (senderid=" + id + " and recieverid="+cur_user+") order by senttime;";
             output = stmt.executeQuery(sql);
 
             while (output.next()) {
@@ -206,7 +207,7 @@ public class Personal_Chats extends AppCompatActivity {
                 connection = DriverManager.getConnection(ConnectionURL, username, password);
                 Log.e("Success", "Connection Successful");
                 PreparedStatement p = connection.prepareStatement("Insert Into groupchats(senderid,message) value(?,?);");
-                p.setInt(1, 1);
+                p.setInt(1, Integer.parseInt(cur_user));
                 p.setString(2,editText.getText().toString());
                 p.executeUpdate();
                 p = connection.prepareStatement("Insert into groupmessageid(grouplistid) value(?);");
@@ -247,14 +248,14 @@ public class Personal_Chats extends AppCompatActivity {
                 PreparedStatement p = connection.prepareStatement("Insert Into chats(message,seentime,senderid,recieverid) value(?,?,?,?);");
                 p.setString(1, editText.getText().toString());
                 p.setString(2,null);
-                p.setInt(3, 1);
+                p.setInt(3, Integer.parseInt(cur_user));
                 p.setInt(4, Integer.parseInt(id));
                 p.executeUpdate();
               //  Statement stmt = connection.createStatement();
                // String sql = "Insert Into chats(message,seentime,senderid,recieverid) value ("+editText.getText().toString()+", ,"+"1,"+id+");";
                // stmt.execute(sql);
                 message.add(editText.getText().toString());
-                message_sender.add(userid_name.get("1"));
+                message_sender.add(userid_name.get(cur_user));
                 chat_adapter.notifyDataSetChanged();
                 editText.setText("");
                 connection.close();
