@@ -67,6 +67,6 @@ public class AddFriendActivity extends AppCompatActivity {
             Log.e("Error",throwable.toString());
             Toast.makeText(this, "No User Found with this phone number", Toast.LENGTH_SHORT).show();
         }
-        AddFriendActivity.this.startActivity(new Intent(this,MainScreenActivity.class));
+//        AddFriendActivity.this.startActivity(new Intent(this,MainScreenActivity.class));
     }
 }

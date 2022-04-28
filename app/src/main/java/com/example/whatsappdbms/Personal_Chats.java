@@ -93,6 +93,7 @@ public class Personal_Chats extends AppCompatActivity {
             Statement stmt = connection.createStatement();
             String sql = "select name from userlist where userid ="+cur_user+";";
             ResultSet output = stmt.executeQuery(sql);
+            output.beforeFirst();
             while (output.next()) {
                 userid_name.put(cur_user, output.getString(1));
 
@@ -106,7 +107,7 @@ public class Personal_Chats extends AppCompatActivity {
 
             sql = "Select * from chats where (senderid="+cur_user+" and recieverid=" + id + ") or (senderid=" + id + " and recieverid="+cur_user+") order by senttime;";
             output = stmt.executeQuery(sql);
-
+            output.beforeFirst();
             while (output.next()) {
                 Log.e("Output", output.getString(1));
                 Log.e("Output", output.getString(2));
@@ -154,10 +155,12 @@ public class Personal_Chats extends AppCompatActivity {
             Statement stmt = connection.createStatement();
             String sql = "Select senderid from groupchats where groupmessageid in ( select groupmessageid from groupmessageid where grouplistid=" + id + ");";
             ResultSet output = stmt.executeQuery(sql);
+            output.beforeFirst();
             while (output.next()) {
                 Statement stmt1 = connection.createStatement();
                 sql = "select name from userlist where userid =" + output.getString(1) + ";";
                 ResultSet output1 = stmt1.executeQuery(sql);
+                output.beforeFirst();
                 while (output1.next()) {
                     userid_name.put(output.getString(1), output1.getString(1));
                 }
@@ -165,6 +168,7 @@ public class Personal_Chats extends AppCompatActivity {
 
             sql = "Select * from groupchats where groupmessageid in ( select groupmessageid from groupmessageid where grouplistid=" + id + ");";
             output = stmt.executeQuery(sql);
+            output.beforeFirst();
             while (output.next()) {
                 Log.e("Output", output.getString(1));
                 Log.e("Output", output.getString(2));

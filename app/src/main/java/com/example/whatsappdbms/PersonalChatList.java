@@ -89,6 +89,7 @@ public class PersonalChatList extends AppCompatActivity {
             Log.e("Success","Connection Successful");
             Statement stmt = connection.createStatement();
             ResultSet output=  stmt.executeQuery(sql);
+            output.beforeFirst();
             while(output.next()){
 //                Log.e("Output",output.getString(1));
 //                Log.e("Output",output.getString(2));
@@ -155,6 +156,7 @@ public class PersonalChatList extends AppCompatActivity {
             Log.e("Success","Connection Successful");
             Statement stmt = connection.createStatement();
             ResultSet output=  stmt.executeQuery(sql);
+            output.beforeFirst();
             while(output.next()){
 //                Log.e("Output",output.getString(1));
 //                Log.e("Output",output.getString(2));

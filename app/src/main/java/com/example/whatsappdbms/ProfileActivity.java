@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.sql.Connection;
@@ -19,6 +20,7 @@ public class ProfileActivity extends AppCompatActivity {
     String about,id;
     TextView nameTextView, phoneTextView, aboutTextView;
     String phoneNumberInput, passwordInput;
+    ImageView profileImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
         aboutTextView = findViewById(R.id.aboutTextView);
         nameTextView = findViewById(R.id.nameTextView);
         phoneTextView = findViewById(R.id.phoneTextView);
+        profileImageView =findViewById(R.id.profileImageView);
         getData();
     }
     public void getData(){
@@ -66,6 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
             nameTextView.setText(name);
             phoneTextView.setText(phoneNumber);
             aboutTextView.setText(about);
+            profileImageView.setImageResource(R.drawable.user);
         } catch (SQLException throwable) {
             throwable.printStackTrace();
             Log.e("Error",throwable.toString());
