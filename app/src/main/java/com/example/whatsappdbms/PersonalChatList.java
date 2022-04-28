@@ -70,7 +70,7 @@ public class PersonalChatList extends AppCompatActivity {
 
     public void getData_personal(){
 
-        String sql = "select * from userlist where userid in ( select recieverid from chats where senderid ="+cur_user+" union select senderid from chats where recieverid="+cur_user+");";
+        String sql = "select * from userlist where userid in ( select user2id from chatlist where userid ="+cur_user+" union select userid from chatlist where user2id="+cur_user+");";
         String username = phoneNumber;
         String password = passwordInput;
         Connection connection= null;
