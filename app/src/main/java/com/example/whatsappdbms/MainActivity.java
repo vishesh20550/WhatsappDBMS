@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
                 connection.close();
                 Intent intent = new Intent(this, MainScreenActivity.class);
                 intent.putExtra("userId",userId);
+                intent.putExtra("currUserPhone",phoneNumberInput);
+                intent.putExtra("currUserPassword",passwordInput);
                 this.startActivity(intent);
             } catch (SQLException throwable) {
                 throwable.printStackTrace();

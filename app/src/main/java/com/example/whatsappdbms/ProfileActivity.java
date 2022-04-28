@@ -18,6 +18,7 @@ public class ProfileActivity extends AppCompatActivity {
     String phoneNumber;
     String about,id;
     TextView nameTextView, phoneTextView, aboutTextView;
+    String phoneNumberInput, passwordInput;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +26,8 @@ public class ProfileActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             id = extras.getString("userId");
-
+            phoneNumberInput = extras.getString("currUserPhone");
+            passwordInput =extras.getString("currUserPassword");
         }
         aboutTextView = findViewById(R.id.aboutTextView);
         nameTextView = findViewById(R.id.nameTextView);

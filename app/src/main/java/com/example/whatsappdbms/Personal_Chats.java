@@ -31,6 +31,7 @@ public class Personal_Chats extends AppCompatActivity {
     String id;
     String type, cur_user;
     ProgressBar progressBar;
+    String phoneNumber, passwordInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,8 @@ public class Personal_Chats extends AppCompatActivity {
             id = extras.getString("id");
             type = extras.getString("type");
             cur_user = extras.getString("cur_user");
-
+            phoneNumber = extras.getString("currUserPhone");
+            passwordInput = extras.getString("currUserPassword");
         }
         message = new ArrayList<>();
         message_sender = new ArrayList<>();
@@ -72,8 +74,8 @@ public class Personal_Chats extends AppCompatActivity {
 
     public void getData() {
 
-        String username = "root";
-        String password = "DBMSProject123";
+        String username = phoneNumber;
+        String password = passwordInput;
         Connection connection = null;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -133,8 +135,8 @@ public class Personal_Chats extends AppCompatActivity {
     }
 
     public void get_group_data() {
-        String username = "root";
-        String password = "DBMSProject123";
+        String username = phoneNumber;
+        String password = passwordInput;
         Connection connection = null;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -206,8 +208,8 @@ public class Personal_Chats extends AppCompatActivity {
 
         if (type.equals("group")) {
 
-            String username = "root";
-            String password = "DBMSProject123";
+            String username = phoneNumber;
+            String password = passwordInput;
             Connection connection = null;
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -245,8 +247,8 @@ public class Personal_Chats extends AppCompatActivity {
 
 
         } else {
-            String username = "root";
-            String password = "DBMSProject123";
+            String username = phoneNumber;
+            String password = passwordInput;
             Connection connection = null;
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

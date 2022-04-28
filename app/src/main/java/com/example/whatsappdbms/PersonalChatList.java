@@ -27,6 +27,7 @@ public class PersonalChatList extends AppCompatActivity {
     ArrayList<String> id_sequence;
     String cur_user;
     ProgressBar progressBar;
+    String phoneNumber, passwordInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class PersonalChatList extends AppCompatActivity {
         if (extras != null) {
             value = extras.getString("type");
             cur_user=extras.getString("userId");
+            phoneNumber = extras.getString("currUserPhone");
+            passwordInput = extras.getString("currUserPassword");
         }
         names = new ArrayList<>();
         listView = findViewById(R.id.chatlist);
@@ -68,8 +71,8 @@ public class PersonalChatList extends AppCompatActivity {
     public void getData_personal(){
 
         String sql = "select * from userlist where userid in ( select recieverid from chats where senderid ="+cur_user+" union select senderid from chats where recieverid="+cur_user+");";
-        String username = "root";
-        String password = "DBMSProject123";
+        String username = phoneNumber;
+        String password = passwordInput;
         Connection connection= null;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -87,9 +90,9 @@ public class PersonalChatList extends AppCompatActivity {
             Statement stmt = connection.createStatement();
             ResultSet output=  stmt.executeQuery(sql);
             while(output.next()){
-                Log.e("Output",output.getString(1));
-                Log.e("Output",output.getString(2));
-                Log.e("Output",output.getString(3));
+//                Log.e("Output",output.getString(1));
+//                Log.e("Output",output.getString(2));
+//                Log.e("Output",output.getString(3));
                // Log.e("Output",output.getString(4));
 
                 names.add(output.getString(3));
@@ -124,6 +127,8 @@ public class PersonalChatList extends AppCompatActivity {
                 intent.putExtra("type",value);
                 intent.putExtra("id",id_sequence.get(i));
                 intent.putExtra("cur_user",cur_user);
+                intent.putExtra("currUserPhone",phoneNumber);
+                intent.putExtra("currUserPassword",passwordInput);
                 PersonalChatList.this.startActivity(intent);
             }
         });
@@ -132,8 +137,8 @@ public class PersonalChatList extends AppCompatActivity {
 
     public void get_group_data(){
         String sql = "Select * from grouplist where grouplistid in  (Select grouplistid from hasgrouprelation where userid="+cur_user+");";
-        String username = "root";
-        String password = "DBMSProject123";
+        String username = phoneNumber;
+        String password = passwordInput;
         Connection connection= null;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -151,10 +156,10 @@ public class PersonalChatList extends AppCompatActivity {
             Statement stmt = connection.createStatement();
             ResultSet output=  stmt.executeQuery(sql);
             while(output.next()){
-                Log.e("Output",output.getString(1));
-                Log.e("Output",output.getString(2));
-                Log.e("Output",output.getString(3));
-                Log.e("Output",output.getString(4));
+//                Log.e("Output",output.getString(1));
+//                Log.e("Output",output.getString(2));
+//                Log.e("Output",output.getString(3));
+//                Log.e("Output",output.getString(4));
                 names.add(output.getString(2));
                 id_sequence.add(output.getString(1));
 
